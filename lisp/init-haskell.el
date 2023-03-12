@@ -32,3 +32,4 @@
   (define-key haskell-mode-map (kbd "C-o") 'open-line))
 
 (provide 'init-haskell)
+;;; init-haskell.el ends here

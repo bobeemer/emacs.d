@@ -1,6 +1,5 @@
 ;; -*- coding: utf-8; lexical-binding: t; -*-
 
-
 (add-hook 'c-mode-hook 'lsp)
 (add-hook 'c++-mode-hook 'lsp)
 
@@ -16,4 +15,5 @@
   ;;(require 'dap-cpptools)
   (yas-global-mode))
 
-(provide 'init-diff)
+(provide 'init-cpp-mode)
+;;; init-cpp-mode.el ends here

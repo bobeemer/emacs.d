@@ -71,44 +71,10 @@
 
 (my-run-with-idle-timer 2 'frame-titile-setup)
 
-(defun my-computer-sleep-now ()
-  "Make my computer sleep now."
-  (interactive)
-  (let* ((cmd (cond
-               (*mac*
-                "pmset sleepnow")
-               (*cygwin*
-                "rundll32.exe PowrProf.dll,SetSuspendState")
-               (t
-                "sudo pm-suspend"))))
-    (shell-command cmd)))
-
-(defun my-swiper (&optional other-source)
-  "Search current file.
-If OTHER-SOURCE is 1, get keyword from clipboard.
-If OTHER-SOURCE is 2, get keyword from `kill-ring'."
-  (interactive "P")
-  (let* ((keyword (cond
-                   ((eq 1 other-source)
-                    (cliphist-select-item))
-                   ((eq 2 other-source)
-                    (my-select-from-kill-ring 'identity))
-                   ((region-active-p)
-                    (my-selected-str)))))
-    ;; `swiper--re-builder' read from `ivy-re-builders-alist'
-    ;; more flexible
-    (swiper keyword)))
-
-(defun my-swiper-hack (&optional arg)
-  "Undo region selection before swiper.  ARG is ingored."
-  (ignore arg)
-  (if (region-active-p) (deactivate-mark)))
-(advice-add 'swiper :before #'my-swiper-hack)
-
 ;; time format
 ;; If you want to customize time format, read document of `format-time-string'
 ;; and customize `display-time-format'.
-(setq display-time-format "%Y %m %d")
+(setq display-time-format "%m-%d %H:%M")
 
 ;; from RobinH, Time management
 (setq display-time-24hr-format t) ; the date in modeline is English too, magic!
@@ -146,18 +112,6 @@ If OTHER-SOURCE is 2, get keyword from `kill-ring'."
         (message "Indent buffer.")))))
 ;; }}
 
-(defun my-get-total-hours ()
-  (interactive)
-  (let* ((str (if (region-active-p) (my-selected-str)
-                (my-buffer-str)))
-         (total-hours 0)
-         (lines (nonempty-lines str)))
-    (dolist (l lines)
-      (if (string-match " \\([0-9][0-9.]*\\)h[ \t]*$" l)
-          (setq total-hours (+ total-hours (string-to-number (match-string 1 l))))))
-    (message "total-hours=%s" total-hours)))
-
-
 (with-eval-after-load 'browse-kill-ring
   (setq browse-kill-ring-separator "--------------------------")
   (define-key browse-kill-ring-mode-map (kbd "q") 'browse-kill-ring-quit)
@@ -176,38 +130,7 @@ If OTHER-SOURCE is 2, get keyword from `kill-ring'."
   (setq pomodoro-work-time 15)
   ;; Instead of calling `pomodoro-add-to-mode-line`
   (push '(pomodoro-mode-line-string pomodoro-mode-line-string) mode-line-format))
-
-;; {{
-
-(defun my-browse-file (file)
-  "Browse FILE as url using `browse-url'."
-  (when (and file (file-exists-p file))
-    (browse-url-generic (concat "file://" file))))
-
-(defun my-browse-current-file ()
-  "Browse current file."
-  (interactive)
-  (my-browse-file buffer-file-name))
-
-(defun my-browse-current-file-as-html ()
-  "Browse current file as html."
-  (interactive)
-  (cond
-   ((or (not buffer-file-name)
-        (not (file-exists-p buffer-file-name))
-        (not (string-match-p "html?$" buffer-file-name)))
-    (let* ((file (make-temp-file "my-browse-file-" nil ".html")))
-      (my-write-to-file (format "<html><body>%s</body></html>" (buffer-string)) file)
-      (my-browse-file file)
-      (my-run-with-idle-timer 4 (lambda (delete-file file)))))
-   (t
-    (my-browse-file buffer-file-name))))
 ;; }}
-
-(defun my-switch-to-previous-buffer ()
-  "Switch to previous buffer."
-  (interactive)
-  (switch-to-buffer nil))
 
 (defun my-current-string-beginning ()
   "Goto current string's beginning."
@@ -243,7 +166,6 @@ If OTHER-SOURCE is 2, get keyword from `kill-ring'."
   (dolist (hook '(prog-mode-hook text-mode-hook conf-mode-hook))
     (add-hook hook 'my-show-trailing-whitespace)))
 
-
 (global-set-key [remap just-one-space] 'cycle-spacing)
 ;; }}
 
@@ -255,6 +177,7 @@ If OTHER-SOURCE is 2, get keyword from `kill-ring'."
 
 (add-hook 'dired-mode-hook 'org-download-enable)
 
+;; {{
 ;; Ubuntu 下 Emacs 中无法激活搜狗输入法?
 ;; 这个帖子估计还会有人遇到类似问题， 我也回复下。
 ;; 最简单的办法是替换emacs的启动文件，就是那个.desktop文件 在/usr/share/applications/下面。
@@ -276,6 +199,7 @@ If OTHER-SOURCE is 2, get keyword from `kill-ring'."
   (setq face-font-rescale-alist '(("simsun" . 1.1))))
 
 (my-run-with-idle-timer 2 'my-font-setup)
+;;}}
 
 (provide 'init-essential)
 ;;; init-essential.el ends here

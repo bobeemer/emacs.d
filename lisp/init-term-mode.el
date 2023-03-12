@@ -7,3 +7,4 @@
           (concat (getenv "USER") " $ "))))
 
 (provide 'init-term-mode)
+;;; init-term-mode.el ends here

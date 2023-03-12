@@ -552,7 +552,7 @@ If INCLUSIVE is t, the text object is inclusive."
   "cxi" 'org-clock-in ; `C-c C-x C-i'
   "cxo" 'org-clock-out ; `C-c C-x C-o'
   "cxr" 'org-clock-report ; `C-c C-x C-r'
-  "m" 'org-insert-structure-template'
+  "cxz" 'org-insert-structure-template'
   "dd" 'counsel-etags-grep-current-directory
   "da" 'diff-region-tag-selected-as-a
   "db" 'diff-region-compare-with-b
@@ -579,7 +579,6 @@ If INCLUSIVE is t, the text object is inclusive."
   "uu" 'my-transient-winner-undo
   "fs" 'ffip-save-ivy-last
   "fr" 'ivy-resume
-  "ss" 'my-swiper
   "og" 'org-agenda
 
   "otl" 'org-toggle-link-display
@@ -611,7 +610,15 @@ If INCLUSIVE is t, the text object is inclusive."
   "xs" 'save-buffer
   "ir" 'ivy-resume
   "ww" 'narrow-or-widen-dwim
-  "wf" 'popup-which-function)
+  "wf" 'popup-which-function
+  ;; text line function
+  "ln" 'my-open-line-with-reindent
+  "lj" 'my-kill-line
+  "ls" 'my-newline-at-end-of-line
+  "ls" 'my-open-line-with-reindent
+  "ld" 'my-kill-back-to-indentation
+  "lp" 'move-dup-move-lines-up
+  "lo" 'move-dup-move-lines-down)
 ;; }}
 
 ;; {{ Use `SPC` as leader key

@@ -194,7 +194,7 @@
   (goto-char (point-min))
   (while (search-forward "\r" nil t) (replace-match "")))
 
-(add-hook 'magit-status-mode-hook 'my-hidden-dos-eol)
+(add-hook 'magit-revision-mode-hook 'my-hidden-dos-eol)
 ;; }}
 
 ;; @see https://stackoverflow.com/questions/3417438/closing-all-other-buffers-in-emacs
@@ -249,8 +249,8 @@ might be bad."
   (interactive)
   (untabify (point-min) (point-max))
   (delete-trailing-whitespace))
-;; {{ some new line function form steve pull work with evil
 
+;; {{ some new line function form steve pull work with evil
 (defun my-newline-at-end-of-line ()
   "Move to end of line, enter a newline, and reindent."
   (interactive)

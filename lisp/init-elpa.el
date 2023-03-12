@@ -198,6 +198,9 @@ You still need modify `package-archives' in \"init-elpa.el\" to PERMANENTLY use 
 (require-package 'reformatter)
 ;;}}
 (require-package 'keyfreq)
+(require-package 'move-dup)
+(require-package 'origami)
+(require-package 'lsp-mode)
 
 (defvar my-color-themes
   '(

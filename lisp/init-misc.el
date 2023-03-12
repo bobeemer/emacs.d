@@ -195,6 +195,7 @@
   (while (search-forward "\r" nil t) (replace-match "")))
 
 (add-hook 'magit-revision-mode-hook 'my-hidden-dos-eol)
+(add-hook 'magit-diff-mode-hook 'my-hidden-dos-eol)
 ;; }}
 
 ;; @see https://stackoverflow.com/questions/3417438/closing-all-other-buffers-in-emacs

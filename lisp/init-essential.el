@@ -71,20 +71,6 @@
 
 (my-run-with-idle-timer 2 'frame-titile-setup)
 
-;; font setup
-(defun my-font-setup ()
-  (when (window-system)
-  ;; set english font
-  (set-frame-font "Monospace 15")
-
-  ;; set chinses font
-  (dolist (charset '(kana han symbol cjk-misc bopomofo))
-    (set-fontset-font (frame-parameter nil 'font)
-                      charset
-                      (font-spec :family "PingFang SC":size 17)))))
-
-(my-run-with-idle-timer 2 'my-font-setup)
-
 (defun my-computer-sleep-now ()
   "Make my computer sleep now."
   (interactive)
@@ -193,15 +179,6 @@ If OTHER-SOURCE is 2, get keyword from `kill-ring'."
 
 ;; {{
 
-;; https://stackoverflow.com/questions/4506249/how-can-i-make-emacs-org-mode-open-links-to-sites-in-google-chrome
-(setq browse-url-browser-function 'browse-url-generic
-      browse-url-generic-program "Safari")
-(if (eq system-type 'windows-nt)
-    (setq browse-url-browser-function 'browse-url-default-windows-browser))
-
-(setq browse-url-generic-program (executable-find "Safari")
-      browse-url-browser-function 'browse-url-generic)
-
 (defun my-browse-file (file)
   "Browse FILE as url using `browse-url'."
   (when (and file (file-exists-p file))
@@ -277,6 +254,28 @@ If OTHER-SOURCE is 2, get keyword from `kill-ring'."
   (define-key symbol-overlay-mode-map (kbd "M-p") 'symbol-overlay-jump-prev))
 
 (add-hook 'dired-mode-hook 'org-download-enable)
+
+;; Ubuntu 下 Emacs 中无法激活搜狗输入法?
+;; 这个帖子估计还会有人遇到类似问题， 我也回复下。
+;; 最简单的办法是替换emacs的启动文件，就是那个.desktop文件 在/usr/share/applications/下面。
+;; 直接改成Exec=env LC_CTYPE=zh_CN.UTF-8 emacs25 %F
+;; 加粗部分是新增的内容。
+;; 我看到帖子的内容也尝试去修改自己的profile或者是系统的locale，结果非常坑，也不知道是哪里设置的，
+;; 家目录设置的始终不生效，系统级别也跟我得到的结果不一致，再加上我并不希望修改系统的设置，
+;; 现在的办法看起来是最完美的了。本来也是emacs的一个bug。。
+;; font setup
+(defun my-font-setup ()
+  (when (window-system)
+    ;; set english font
+    (set-frame-font "Monospace 15")))
+
+;; set chinses font
+(dolist (charset '(kana han cjk-misc bopomofo))
+  (set-fontset-font (frame-parameter nil 'font) charset
+                    (font-spec :family "simsun"))
+  (setq face-font-rescale-alist '(("simsun" . 1.1))))
+
+(my-run-with-idle-timer 2 'my-font-setup)
 
 (provide 'init-essential)
 ;;; init-essential.el ends here

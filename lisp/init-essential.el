@@ -201,5 +201,28 @@
 (my-run-with-idle-timer 2 'my-font-setup)
 ;;}}
 
+(with-eval-after-load 'highlight-indent-guides
+  (set-face-foreground 'highlight-indent-guides-stack-character-face "dimgray")
+  (set-face-foreground 'highlight-indent-guides-character-face "dimgray")
+  (set-face-foreground 'highlight-indent-guides-top-character-face "dimgray")
+  (set-face-foreground 'highlight-indent-guides-even-face "dimgray")
+  (set-face-foreground 'highlight-indent-guides-odd-face  "dimgray")
+
+  (setq highlight-indent-guides-method 'character)
+  (setq highlight-indent-guides-responsive 'top))
+(add-hook 'prog-mode-hook 'highlight-indent-guides-mode)
+
+;; Highlight cursor postion after movement
+(require 'pulse)
+(with-eval-after-load 'pulse
+  (defun pulse-line (&rest _)
+    (pulse-momentary-highlight-one-line (point)))
+  (dolist (command '(other-window
+                     windmove-do-window-select
+                     mouse-set-point
+                     mouse-select-window))
+    (advice-add command :after #'pulse-line)))
+
+
 (provide 'init-essential)
 ;;; init-essential.el ends here

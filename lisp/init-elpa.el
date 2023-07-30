@@ -182,7 +182,7 @@ You still need modify `package-archives' in \"init-elpa.el\" to PERMANENTLY use 
 (require-package 'evil-surround)
 (require-package 'evil-visualstar)
 (require-package 'undo-fu)
-(require-package 'undo-tree) ;; unavlilable
+;;(require-package 'undo-tree);; unavlilable
 (require-package 'xclip) ;;=> from gun
 (require-package 'cliphist)
 (require-package 'haskell-mode)
@@ -201,6 +201,10 @@ You still need modify `package-archives' in \"init-elpa.el\" to PERMANENTLY use 
 (require-package 'move-dup)
 (require-package 'origami)
 (require-package 'lsp-mode)
+
+(require-package 'highlight-indent-guides)
+(require-package 'keycast)
+
 
 (defvar my-color-themes
   '(
